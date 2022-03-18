@@ -14,7 +14,7 @@ const Categories = [
     "miscellaneous",
     "hatke",
     "science",
-    "automobile",
+    "automobile"
 ];
 
 class Navbar extends React.Component {
@@ -29,7 +29,7 @@ class Navbar extends React.Component {
                                     className='nav-list-item'
                                     key={index}
                                     onClick={() =>
-                                        this.props.setActive(category)
+                                        this.props.setActiveCategory(category)
                                     }
                                 >
                                     {category.toUpperCase()}

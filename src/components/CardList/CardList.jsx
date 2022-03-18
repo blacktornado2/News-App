@@ -9,8 +9,8 @@ export default class CardList extends Component {
     render() {
         return (
             <div className='card-list'>
-                {this.props.news.map((news, index) => (
-                    <div className='card-item' key={index}>
+                {this.props.activeCategoryNews.map((news, index) => (
+                    <div className='card-item' key={news.title}>
                         <a href={news.readMoreUrl} target='_blank'>
                             <img className='card-img' src={news.imageUrl} />
                         </a>

@@ -5,38 +5,52 @@ import CardList from "../CardList/CardList";
 
 class App extends React.Component {
     state = {
-        active: "",
-        news: [],
+        activeCategory: "",
+        activeCategoryNews: []
     };
 
-    setActive = async category => {
-        let requestCategory = "";
+    fetchNews = async () => {
+        let category = this.state.activeCategory;
+
         if (category === "all") {
-            requestCategory = "";
+            category = "";
         } else {
-            requestCategory = `=${category}`;
+            category = `=${category}`;
         }
         const response = await axios.get(
-            `https://inshortsapi.vercel.app/news?category${requestCategory}`
+            `https://inshortsapi.vercel.app/news?category${category}`
         );
+
+        const news = response.data.data;
+
         this.setState({
-            active: category,
-            news: response.data.data,
+            activeCategoryNews: news
         });
     };
 
-    async componentDidMount() {
-        const response = await axios.get(
-            `https://inshortsapi.vercel.app/news?category=${this.state.active}`
+    setActive = category => {
+        if (category === this.state.activeCategory) return;
+
+        this.setState(
+            {
+                activeCategory: category
+            },
+            this.fetchNews
         );
-        this.setState({ news: response.data.data });
+    };
+
+    componentDidMount() {
+        this.fetchNews();
     }
 
     render() {
         return (
             <div className='app'>
-                <Navbar active={this.state.active} setActive={this.setActive} />
-                <CardList news={this.state.news} />
+                <Navbar
+                    activeCategory={this.state.active}
+                    setActiveCategory={this.setActive}
+                />
+                <CardList activeCategoryNews={this.state.activeCategoryNews} />
             </div>
         );
     }
