@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+
+import { fetchPosts } from "../../actions";
 import "./Navbar.scss";
 
 const Categories = [
@@ -17,30 +20,42 @@ const Categories = [
     "automobile"
 ];
 
-class Navbar extends React.Component {
-    render() {
-        return (
-            <div className='navbar'>
-                <div className='container'>
-                    <ul className='nav-list'>
-                        {Categories.map((category, index) => {
-                            return (
-                                <li
-                                    className='nav-list-item'
-                                    key={index}
-                                    onClick={() =>
-                                        this.props.setActiveCategory(category)
-                                    }
-                                >
-                                    {category.toUpperCase()}
-                                </li>
-                            );
-                        })}
-                    </ul>
-                </div>
-            </div>
-        );
-    }
-}
+const Navbar = ({ activeCategory, fetchPosts }) => {
+    // Run only the first time app loads
+    useEffect(() => {
+        fetchPosts("all");
+    }, []);
 
-export default Navbar;
+    return (
+        <div className="navbar">
+            <div className="container">
+                <ul className="nav-list">
+                    {Categories.map((category, index) => {
+                        return (
+                            <li
+                                className="nav-list-item"
+                                key={index}
+                                onClick={() => {
+                                    // Reduce the number of network requests
+                                    if (category !== activeCategory) {
+                                        fetchPosts(category);
+                                    }
+                                }}
+                            >
+                                {category.toUpperCase()}
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
+        </div>
+    );
+};
+
+const mapStateToProps = state => {
+    return {
+        activeCategory: state.activeCategory
+    };
+};
+
+export default connect(mapStateToProps, { fetchPosts })(Navbar);

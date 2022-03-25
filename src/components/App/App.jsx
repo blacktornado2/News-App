@@ -1,59 +1,23 @@
-import axios from "axios";
 import React from "react";
+
 import Navbar from "../Navbar/Navbar";
 import CardList from "../CardList/CardList";
+import SearchBar from "../SearchBar/SearchBar";
+// import { GiDarkSquad } from "react-icons";
 
-class App extends React.Component {
-    state = {
-        activeCategory: "",
-        activeCategoryNews: []
-    };
+// Implement the following features
+// 1. Hamburger Menu
+// 2. Sorting
+// 3. Improve UI
 
-    fetchNews = async () => {
-        let category = this.state.activeCategory;
-
-        if (category === "all") {
-            category = "";
-        } else {
-            category = `=${category}`;
-        }
-        const response = await axios.get(
-            `https://inshortsapi.vercel.app/news?category${category}`
-        );
-
-        const news = response.data.data;
-
-        this.setState({
-            activeCategoryNews: news
-        });
-    };
-
-    setActive = category => {
-        if (category === this.state.activeCategory) return;
-
-        this.setState(
-            {
-                activeCategory: category
-            },
-            this.fetchNews
-        );
-    };
-
-    componentDidMount() {
-        this.fetchNews();
-    }
-
-    render() {
-        return (
-            <div className='app'>
-                <Navbar
-                    activeCategory={this.state.active}
-                    setActiveCategory={this.setActive}
-                />
-                <CardList activeCategoryNews={this.state.activeCategoryNews} />
-            </div>
-        );
-    }
-}
+const App = () => {
+    return (
+        <div className="app">
+            <Navbar />
+            <SearchBar />
+            <CardList />
+        </div>
+    );
+};
 
 export default App;

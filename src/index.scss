@@ -5,12 +5,11 @@
     padding: 0;
     box-sizing: border-box;
     scroll-behavior: smooth;
-    // overflow-x: hidden;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 *::selection {
-    background-color: yellowgreen;
+    background-color: red;
 }
 
 a {
